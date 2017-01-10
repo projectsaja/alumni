@@ -4,7 +4,6 @@
 	<title>WEB ALUMNI ITATS</title>
 	<link rel="stylesheet" type="text/css" href="css/bootstrap.css">
 	<style>
-html,body{margin:0;padding:0;height:100%;font:13px Arial;}
 #header{
 	background:#f0f0f0;
 	padding:5px;
@@ -34,20 +33,8 @@ html,body{margin:0;padding:0;height:100%;font:13px Arial;}
     <ul class="nav navbar-nav">
       <li class="active"><a href="home.php">ITATS</a></li>
       <li><a href="form.php">Form Pendaftaran</a></li>
-      <li><a href="#">Data Mahasiswa</a></li>
+      <li><a href="datamahasiswa.php">Data Mahasiswa</a></li>
       <li><a href="#">Contact</a></li>
     </ul>
   </div>
 </nav>
-<?php
-$host="localhost";
-$dbname="sim";
-$user="root";
-$password="";
-try{
-$DBH = new PDO("mysql:host=$host;dbname=$dbname", $user, $password);
-}
-catch(PDOException $e){
-  echo "<br>".$e->getMessage();
-}
-?>

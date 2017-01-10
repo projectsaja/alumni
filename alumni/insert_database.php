@@ -1,13 +1,14 @@
 <?php
 require 'header.php';
+require 'koneksi.php';
 ?>
 <?php
 try{
 $DBH->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 $STH = $DBH->prepare("INSERT INTO data(tahun, namaperusahaan, alamatperusahaan, 
   teleponperusahaan, posisikerja, kerjadibidang, sesuaibidang, saranalumni, namapengguna, 
-  kerjadiposisi, email, saranpengguna, skill1, skill2, skill3, skill4, skill5, skill6, skill7, bukti, alumni_id) 
-  values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+  kerjadiposisi, email, saranpengguna, skill1, skill2, skill3, skill4, skill5, skill6, skill7, emailmanager, bukti, alumni_id) 
+  values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
   
   $kuesionerTahun = $_POST["kuesionerTahun"];
   $namaperusahaan = $_POST["namaperusahaan"];
@@ -29,6 +30,7 @@ $STH = $DBH->prepare("INSERT INTO data(tahun, namaperusahaan, alamatperusahaan,
   $skill6 = $_POST["skill6"];
   $skill7 = $_POST["skill7"];
   $bukti = $_POST["bukti"];
+  $emailmanager = $_POST["emailmanager"];
   $alumni_id = $_POST["alumniID"];
 
   $STH->bindParam(1, $kuesionerTahun);
@@ -52,13 +54,81 @@ $STH = $DBH->prepare("INSERT INTO data(tahun, namaperusahaan, alamatperusahaan,
   $STH->bindParam(19, $skill7);
   $STH->bindParam(20, $bukti);
   $STH->bindParam(21, $alumni_id);
+  $STH->bindParam(22, $emailmanager);
   
   $STH->execute();
+  echo "Data Telah Di input Terima Kasih";
 }
 catch(PDOException $e){
   echo "<br>".$e->getMessage();
 }
 ?>
+
+<?php
+date_default_timezone_set('Etc/UTC');
+require_once('PHPMailer/PHPMailerAutoload.php');
+$to = $_POST["email"];
+$mail = new PHPMailer(); // create a new object
+$mail->IsSMTP(); // enable SMTP
+$mail->SMTPDebug = 1; // debugging: 1 = errors and messages, 2 = messages only
+$mail->SMTPAuth = true; // authentication enabled
+$mail->SMTPSecure = 'ssl'; // secure transfer enabled REQUIRED for Gmail
+$mail->Host = "smtp.gmail.com";
+$mail->Port = 465; // or 587
+$mail->IsHTML(true);
+$mail->Username = "devitapp@itats.ac.id";//e-mail pengguna
+$mail->Password = "akumahapatuh";//password pengguna
+$mail->SetFrom("devitapp@itats.ac.id");
+$mail->Subject = "Welcome";
+$mail->Body = "Data anda sudah di input";
+$mail->AddAddress($to);
+$mail->SMTPOptions = array (
+    'ssl' => array (
+        'verify_peer' => false,
+        'verify_peer_name' => false,
+        'allow_self_signed' => true
+    )
+);
+ if(!$mail->Send()) {
+    echo "Mailer Error: " . $mail->ErrorInfo;
+ } else {
+    echo "Message has been sent";
+ }
+ ?>
+
+<?php
+date_default_timezone_set('Etc/UTC');
+require_once('PHPMailer/PHPMailerAutoload.php');
+$to = $_POST["emailmanager"];
+$namapengguna = $_POST["nama"];
+$namaperusahaan = $_POST["namaperusahaan"];
+$mail = new PHPMailer(); // create a new object
+$mail->IsSMTP(); // enable SMTP
+$mail->SMTPDebug = 1; // debugging: 1 = errors and messages, 2 = messages only
+$mail->SMTPAuth = true; // authentication enabled
+$mail->SMTPSecure = 'ssl'; // secure transfer enabled REQUIRED for Gmail
+$mail->Host = "smtp.gmail.com";
+$mail->Port = 465; // or 587
+$mail->IsHTML(true);
+$mail->Username = "devitapp@itats.ac.id";//e-mail pengguna
+$mail->Password = "akumahapatuh";//password pengguna
+$mail->SetFrom("devitapp@itats.ac.id");
+$mail->Subject = "Approval";
+$mail->Body = "Apakah ".$namapengguna." bekerja di ".$namaperusahaan." ?";
+$mail->AddAddress($to);
+$mail->SMTPOptions = array (
+    'ssl' => array (
+        'verify_peer' => false,
+        'verify_peer_name' => false,
+        'allow_self_signed' => true
+    )
+);
+ if(!$mail->Send()) {
+    echo "Mailer Error: " . $mail->ErrorInfo;
+ } else {
+    echo "Message has been sent";
+ }
+ ?>
 <?php
 require 'footer.php';
 ?>

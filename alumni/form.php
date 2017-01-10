@@ -18,6 +18,7 @@ require 'header.php';
 <tr> <td>Nama Pengguna</td><td><input style="width:500px;" type="text" name="nama" class="form-control"></td></tr></input>
 <tr><td>Kerja Di Posisi</td><td><input style="width:500px;" type="text" name="posisi" class="form-control"></td></tr></input>
 <tr><td>Email</td><td><input style="width:500px;" type="text" name="email" class="form-control"></td></tr></input>
+<tr><td>Email Manager</td><td><input style="width:500px;" type="text" name="emailmanager" class="form-control"></td></tr></input>
 <tr><td>Saran Pengguna</td><td><input style="width:500px;" type="text" name="saran" class="form-control"></td></tr></input>
 
 <tr><td>Beretika Dan Moral Dalam Bekerja</td><td><input type="radio" value="SB" name="skill1">SB</input> <input type="radio" value="B" name="skill1"/>B</input> <input type="radio" value="C" name="skill1"/>C</input> <input type="radio" value="K" name="skill1"/>K</input></tr>
